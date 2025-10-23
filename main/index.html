@@ -46,9 +46,13 @@ try{
   return;
   
 }
-
 try{
-var assetLoader = new AssetLoader(sources);
+var glUtils = new GlUtils();
+}catch(e){
+  alert(e + 'glUtils');
+}
+try{
+var assetLoader = new AssetLoader(sources, glUtils);
 }catch(e){
   alert(e + "assetLoader");
 }
@@ -59,11 +63,7 @@ await assetLoader.loadModels();
   alert(e + "loadModels");
 }
 await assetLoader.loadShaders();
-try{
-var glUtils = new GlUtils();
-}catch(e){
-  alert(e + 'glUtils');
-}
+
   var compiler = new Compiler(assetLoader, glUtils);
   compiler.compileModels();
   compiler.compileShaderPrograms();
@@ -1844,6 +1844,7 @@ main();
 </script>
 </body>
 <html>
+
 
 
 
