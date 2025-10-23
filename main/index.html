@@ -1,34 +1,33 @@
+<!DOCTYPE html>
+<html>
 
-	<!DOCTYPE html>
-	<html>
+<head>
+	<title>
+		Game Engine
+	</title>
+	<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+</head>
 
-	<head>
-		<title>
-			Game Engine
-		</title>
-		<script src = "https://cdn.jsdelivr.net/npm/eruda"></script>
-	</head>
-
-	<body>
-		<canvas id="gameboard" , width="800" height="800">
-		</canvas>
-		<button onclick = "eruda.init();">
+<body>
+	<canvas id="gameboard" , width="800" height="800">
+	</canvas>
+	<button onclick = "eruda.init();">
 			helo
 		</button>
-		<script src="/main.js">
-		</script>
-		<style>
-			
-		</style>
-	</body>
+	<script src="/main.js">
+	</script>
+	<style>
 
-	</html>
-	<script type="text/javascript">
-		var models;
+	</style>
+</body>
+
+</html>
+<script type="text/javascript">
+	var models;
 var gl;
 async function main(){
   try{
-  let sources = await loadSrc();
+  var sources = await loadSrc();
   }catch(e){
     console.error(e);
 return;
@@ -47,10 +46,24 @@ try{
   return;
   
 }
+
+try{
 var assetLoader = new AssetLoader(sources);
+}catch(e){
+  console.error(e);
+}
+
+try{
 await assetLoader.loadModels();
+}catch(e){
+  console.error(e);
+}
 await assetLoader.loadShaders();
+try{
 var glUtils = new GlUtils();
+}catch(e){
+  console.error(e + '    ');
+}
   var compiler = new Compiler(assetLoader, glUtils);
   compiler.compileModels();
   compiler.compileShaderPrograms();
@@ -63,28 +76,29 @@ requestAnimationFrame(renderLoop.bind(renderer, [new Entity(compiler.models[0], 
 }
 async function loadSrc(){
 try{
- let response = await fetch("/assets/src.json");
+ let response = await fetch("https://raw.githubusercontent.com/ixlwork/America-simulator/refs/heads/main/main/assets/src.json");
 let text = await response.text();
 let json = JSON.parse(text);
-
+return json;
 
 }catch(e){
 console.error(e);
 }
 }
 class AssetLoader{
-  constructor(sources){
-this.sources = sources;
-this.modelData = [];
-this.modelNames = [];
-this.modelTextures = [];
-this.shaderData = [];
-this.shaderNames = [];
-this.shaderTypes = [];
+  constructor(source){
+this._sources = source;
+this._modelData = [];
+this._modelNames = [];
+this._modelTextures = [];
+this._shaderData = [];
+this._shaderNames = [];
+this._shaderTypes = [];
   }
   async loadModels(){
-    for(let i = 0;i<this.soucres.models.length;i++){
-      this.modelData.push(JSON.parse(await loadFile(this.sources.models[i].src)));
+    for(let i = 0;i<this.sources.models.length;i++){
+
+      this.modelData.push(JSON.parse(await AssetLoader.loadFile(this.sources.models[i].src)));
       this.modelNames.push(this.sources.models[i].name);
       this.modelTextures.push(await this.loadTextures(this.sources.models[i].textures));
 
@@ -101,8 +115,9 @@ for(let ii = 0;ii<modelTextures.length;ii++){
 return textures;
   }
   async loadShaders(){
+    
 for(let i = 0;i<this.sources.shaders.length;i++){
-  this.shaderData.push(JSON.parse(await loadFile(this.sources.shaders[i].src)));
+  this.shaderData.push(JSON.parse(await AssetLoader.loadFile(this.sources.shaders[i].src)));
   this.shaderNames.push(this.sources.shaders[i].name);
   this.shaderTypes.push(this.sources.shaders[i].type);
 
@@ -117,17 +132,35 @@ for(let i = 0;i<this.sources.shaders.length;i++){
     return this.shaderData[this.shaderNames.indexOf(name)] || "no shader with name" + name;
   }
   get sources(){
-return this.sources;
+return this._sources;
   }
-  get models(){
-    return this.modelData;
+  set sources(dat){
+    this._sources = dat;
+  }
+  get modelData(){
+    return this._modelData;
+  }
+  set modelData(dat){
+    this._modelData = dat;
+  }
+  get modelNames(){
+    return this._modelNames;
+  }
+  set modelNames(dat){
+    this._modelNames = dat;
   }
   get shaders(){
-    return this.shaderData;
+    return this._shaderData;
+  }
+  set shaders(dat){
+    this._shaderData = dat;
   }
   get modelTextures(){
-    return this.modelTextures;
+    return this._modelTextures;
   }
+set modelTextures(dat){
+  this._modelTextures = dat;
+}
   static async loadFile(url){
     try{
     let response = await fetch(url);
@@ -178,11 +211,11 @@ this.glUtils.enableAttribLocations(2, [0, 1]);
 }
 class Compiler{
   constructor(assetLoader, glUtils){
-this.assetLoader = assetLoader;
-this.glUtils = glUtils;
-this.sources = assetLoader.sources;
-this.models = [];
-this.shaderPrograms = [];
+this._assetLoader = assetLoader;
+this._glUtils = glUtils;
+this._sources = assetLoader.sources;
+this._models = [];
+this._shaderPrograms = [];
   }
 compileModels(){
   
@@ -229,10 +262,34 @@ compileShaderPrograms(){
   }
 }
 get models(){
-return this.models;
+return this._models;
+}
+set models(dat){
+  this._models = dat;
 }
 get shaderPrograms(){
-return this.shaderPrograms;
+return this._shaderPrograms;
+}
+set shaderPrograms(dat){
+  this._shaderPrograms = dat;
+}
+get assetLoader(){
+  return this._assetLoader;
+}
+set assetLoader(dat){
+this._assetLoader = dat;
+}
+get glUtils(){
+  return this._glUtils;
+}
+set glUtils(dat){
+  this._glUtils = dat;
+}
+get sources(){
+  return this._sources;
+}
+set sources(dat){
+  this._sources = dat;
 }
 }
 
@@ -1777,8 +1834,6 @@ let mat4 = function () {
 }
 let Mat4 = mat4();
 main();
-	</script>
+</script>
 </body>
 <html>
-
-
