@@ -29,20 +29,20 @@ async function main(){
   try{
   var sources = await loadSrc();
   }catch(e){
-    console.error(e);
+    alert(e);
 return;
   }
 try{
 var canvas = document.getElementById("gameboard");
 }catch(e){
-console.error(e);
+alert(e);
 return;
 }
 try{
   gl = canvas.getContext("webgl2");
   console.log(gl.FLOAT)
 }catch(e){
-  console.error(e);
+  alert(e);
   return;
   
 }
@@ -50,19 +50,19 @@ try{
 try{
 var assetLoader = new AssetLoader(sources);
 }catch(e){
-  console.error(e);
+  alert(e);
 }
 
 try{
 await assetLoader.loadModels();
 }catch(e){
-  console.error(e);
+  alert(e);
 }
 await assetLoader.loadShaders();
 try{
 var glUtils = new GlUtils();
 }catch(e){
-  console.error(e + '    ');
+  alert(e + '    ');
 }
   var compiler = new Compiler(assetLoader, glUtils);
   compiler.compileModels();
