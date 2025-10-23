@@ -86,7 +86,7 @@ alert(e + "loadSrc");
 }
 }
 class AssetLoader{
-  constructor(source){
+  constructor(source, glUtils){
 this._sources = source;
 this._modelData = [];
 this._modelNames = [];
@@ -94,6 +94,7 @@ this._modelTextures = [];
 this._shaderData = [];
 this._shaderNames = [];
 this._shaderTypes = [];
+this._glUtils = glUtils;
   }
   async loadModels(){
     for(let i = 0;i<this.sources.models.length;i++){
@@ -117,7 +118,7 @@ return textures;
   async loadShaders(){
     
 for(let i = 0;i<this.sources.shaders.length;i++){
-  this.shaderData.push(JSON.parse(await AssetLoader.loadFile(this.sources.shaders[i].src)));
+  this.shaderData.push(JSON.parse(await this.glUtils.loadFile(this.sources.shaders[i].src)));
   this.shaderNames.push(this.sources.shaders[i].name);
   this.shaderTypes.push(this.sources.shaders[i].type);
 
@@ -160,6 +161,12 @@ return this._sources;
   }
 set modelTextures(dat){
   this._modelTextures = dat;
+}
+	get glUtils(){
+  return this._glUtils;
+}
+set glUtils(dat){
+  this._glUtils = dat;
 }
   static async loadFile(url){
     try{
@@ -1837,6 +1844,7 @@ main();
 </script>
 </body>
 <html>
+
 
 
 
