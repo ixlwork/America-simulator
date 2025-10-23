@@ -76,7 +76,7 @@ requestAnimationFrame(renderLoop.bind(renderer, [new Entity(compiler.models[0], 
 }
 async function loadSrc(){
 try{
- let response = await fetch("https://raw.githubusercontent.com/ixlwork/America-simulator/refs/heads/main/main/assets/src.json");
+ let response = await fetch("assets/src.json");
 let text = await response.text();
 let json = JSON.parse(text);
 return json;
@@ -1837,4 +1837,5 @@ main();
 </script>
 </body>
 <html>
+
 
