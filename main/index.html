@@ -29,20 +29,20 @@ async function main(){
   try{
   var sources = await loadSrc();
   }catch(e){
-    alert(e);
+    alert(e + "sources");
 return;
   }
 try{
 var canvas = document.getElementById("gameboard");
 }catch(e){
-alert(e);
+alert(e + "canvas");
 return;
 }
 try{
   gl = canvas.getContext("webgl2");
   console.log(gl.FLOAT)
 }catch(e){
-  alert(e);
+  alert(e + "gl");
   return;
   
 }
@@ -50,19 +50,19 @@ try{
 try{
 var assetLoader = new AssetLoader(sources);
 }catch(e){
-  alert(e);
+  alert(e + "assetLoader");
 }
 
 try{
 await assetLoader.loadModels();
 }catch(e){
-  alert(e);
+  alert(e + "loadModels");
 }
 await assetLoader.loadShaders();
 try{
 var glUtils = new GlUtils();
 }catch(e){
-  alert(e + '    ');
+  alert(e + 'glUtils');
 }
   var compiler = new Compiler(assetLoader, glUtils);
   compiler.compileModels();
@@ -82,7 +82,7 @@ let json = JSON.parse(text);
 return json;
 
 }catch(e){
-console.error(e);
+alert(e + "loadSrc");
 }
 }
 class AssetLoader{
@@ -1837,3 +1837,4 @@ main();
 </script>
 </body>
 <html>
+
