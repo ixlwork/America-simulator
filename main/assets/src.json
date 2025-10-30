@@ -1,4 +1,4 @@
 {"models":[{"src":"cube.txt","textures":["cube_color_texture.png"], "name":"cube"}
 ], "shaders":[{"src":"basicvs.txt", "name":"basicvs", "type":"vs"}, {"src":"basicfs.txt", "name":"basicfs", "type":"fs"}
-], "shaderPrograms":[{"vertexShader":"basicvs", "fragmentShader":"basicfs", "name":"default", "uniforms":["world", "view", "projection", "tex"]}]}
+], "shaderPrograms":[{"vertexShader":"basicvs", "fragmentShader":"basicfs", "name":"default", "uniforms":["world", "view", "projection", "tex", "lightDirection"]}]}
 
