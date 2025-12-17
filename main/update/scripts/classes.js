@@ -1,5 +1,4 @@
-
-	export class AssetLoader{
+export class AssetLoader{
 	constructor(baseUrl, gl){
 	this._baseUrl = baseUrl || "";
   this._loadingProgress = 0;
