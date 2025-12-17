@@ -30,7 +30,7 @@ return true;
 	
 	async loadAssetList(){
     
-	this._sources = JSON.parse(await fetch(this._baseUrl + "/sources/src.json").text());
+	this._sources = JSON.parse(await fetch(this._baseUrl + "/src/src.json").text());
     this._loadingTotal = this._sources.assets.length;
     
 	}
