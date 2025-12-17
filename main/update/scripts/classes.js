@@ -1,6 +1,6 @@
 
 	export class AssetLoader{
-	constructor(baseUrl){
+	constructor(baseUrl, gl){
 	this._baseUrl = baseUrl || "";
   this._loadingProgress = 0;
   this._loadingTotal = 0;
@@ -9,16 +9,16 @@
   this._loadingFail = false;
   this._sources;
   this._assets = [];
+  this._gl = gl;
 	}
 	async loadLoadingScreen(){
     try{
 	var url = this._baseUrl + "/assets/loadingScreen.json"
   var loadingScreenObject = JSON.parse(await fetch(url).text());
   var globalProperties = {};
-  await loadingScreenObject.init(loadingScreenObject);
- await waitUntilLoading();
- loadingScreenObject.load(loadingScreenObject);
-await finishLoading();
+  await loadingScreenObject.init(this._gl);
+ loadingScreenObject.load(this._gl);
+
     }catch(e){
       console.error(e);
      return false;
